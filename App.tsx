@@ -4,8 +4,11 @@ import ManualCalculator from './components/ManualCalculator';
 import LiveEstimator from './components/LiveEstimator';
 import ModelManager from './components/ModelManager';
 import Arena from './components/Arena';
+import { CostShadow } from './components/CostShadow';
+import { AIConsultant } from './components/AIConsultant';
+import { BudgetManager } from './components/BudgetManager';
 import { NAV_ITEMS, MODELS as DEFAULT_MODELS } from './constants';
-import { Calculator, Zap, Gem, PlusCircle, SplitSquareHorizontal } from 'lucide-react';
+import { Calculator, Zap, Gem, PlusCircle, SplitSquareHorizontal, TrendingUp, Lightbulb, DollarSign } from 'lucide-react';
 import { AIModel } from './types';
 
 const App: React.FC = () => {
@@ -86,7 +89,7 @@ const App: React.FC = () => {
                 )}
              </div>
 
-            <nav className="flex items-center bg-slate-800/80 p-1 rounded-lg">
+            <nav className="flex items-center bg-slate-800/80 p-1 rounded-lg gap-1 flex-wrap">
               {NAV_ITEMS.map((item) => {
                 let Icon = Calculator;
                 if (item.icon === 'Zap') Icon = Zap;
@@ -98,8 +101,8 @@ const App: React.FC = () => {
                     onClick={() => setActiveTab(item.id)}
                     className={`
                       flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200
-                      ${activeTab === item.id 
-                        ? 'bg-slate-700 text-white shadow-sm' 
+                      ${activeTab === item.id
+                        ? 'bg-slate-700 text-white shadow-sm'
                         : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
                       }
                     `}
@@ -109,6 +112,53 @@ const App: React.FC = () => {
                   </button>
                 );
               })}
+
+              <div className="w-full sm:w-auto sm:border-l border-slate-700 sm:pl-1 sm:ml-1 flex gap-1">
+                <button
+                  onClick={() => setActiveTab('shadow')}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200
+                    ${activeTab === 'shadow'
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    }
+                  `}
+                  title="Cost Shadow Simulator"
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  <span className="hidden lg:inline">Shadow</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('consultant')}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200
+                    ${activeTab === 'consultant'
+                      ? 'bg-purple-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    }
+                  `}
+                  title="AI Cost Consultant"
+                >
+                  <Lightbulb className="w-4 h-4" />
+                  <span className="hidden lg:inline">AI</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('budget')}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200
+                    ${activeTab === 'budget'
+                      ? 'bg-orange-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    }
+                  `}
+                  title="Budget Manager"
+                >
+                  <DollarSign className="w-4 h-4" />
+                  <span className="hidden lg:inline">Budget</span>
+                </button>
+              </div>
             </nav>
           </div>
         </div>
@@ -120,6 +170,9 @@ const App: React.FC = () => {
           {activeTab === 'calculator' && <ManualCalculator models={models} />}
           {activeTab === 'live' && <LiveEstimator models={models} />}
           {activeTab === 'arena' && <Arena models={models} />}
+          {activeTab === 'shadow' && <CostShadow />}
+          {activeTab === 'consultant' && <AIConsultant />}
+          {activeTab === 'budget' && <BudgetManager />}
         </div>
       </main>
 

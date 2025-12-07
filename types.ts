@@ -59,3 +59,63 @@ export interface ChatMessage {
   text: string;
   usage?: UsageResult;
 }
+
+export interface CostShadowScenario {
+  name: string;
+  errorRate: number;
+  retryMultiplier: number;
+  networkCostPercentage: number;
+  cacheMissRate: number;
+}
+
+export interface ShadowCostResult {
+  directCost: number;
+  estimatedRetryCost: number;
+  egressCost: number;
+  cacheMissCost: number;
+  totalShadowCost: number;
+  savings: number;
+  description: string;
+}
+
+export interface CostRecommendation {
+  id?: string;
+  title: string;
+  description: string;
+  category: 'caching' | 'batching' | 'model-optimization' | 'error-handling' | 'architecture';
+  estimatedSavings: number;
+  implementationDifficulty: 'easy' | 'medium' | 'hard';
+  codeSuggestion?: string;
+  priority: number;
+  status?: 'pending' | 'approved' | 'implemented' | 'rejected';
+}
+
+export interface BudgetAllocation {
+  id?: string;
+  teamName: string;
+  monthlyBudget: number;
+  spent: number;
+  period: string;
+  alerts: string[];
+}
+
+export interface Organization {
+  id?: string;
+  name: string;
+  slug: string;
+  currency: string;
+}
+
+export interface APICallRecord {
+  id?: string;
+  model: string;
+  inputTokens: number;
+  outputTokens: number;
+  cost: number;
+  success: boolean;
+  retryCount: number;
+  networkCost: number;
+  latencyMs: number;
+  timestamp: string;
+  featureTags?: string[];
+}
