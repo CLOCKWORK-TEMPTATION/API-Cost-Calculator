@@ -7,8 +7,11 @@ import Arena from './components/Arena';
 import { CostShadow } from './components/CostShadow';
 import { AIConsultant } from './components/AIConsultant';
 import { BudgetManager } from './components/BudgetManager';
+import PRCostDiff from './components/PRCostDiff';
+import SmartInstrumentation from './components/SmartInstrumentation';
+import MultiProviderRouter from './components/MultiProviderRouter';
 import { NAV_ITEMS, MODELS as DEFAULT_MODELS } from './constants';
-import { Calculator, Zap, Gem, PlusCircle, SplitSquareHorizontal, TrendingUp, Lightbulb, DollarSign } from 'lucide-react';
+import { Calculator, Zap, Gem, PlusCircle, SplitSquareHorizontal, TrendingUp, Lightbulb, DollarSign, GitBranch, Activity, Route } from 'lucide-react';
 import { AIModel } from './types';
 
 const App: React.FC = () => {
@@ -115,6 +118,51 @@ const App: React.FC = () => {
 
               <div className="w-full sm:w-auto sm:border-l border-slate-700 sm:pl-1 sm:ml-1 flex gap-1">
                 <button
+                  onClick={() => setActiveTab('pr-diff')}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200
+                    ${activeTab === 'pr-diff'
+                      ? 'bg-orange-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    }
+                  `}
+                  title="PR Cost Diff"
+                >
+                  <GitBranch className="w-4 h-4" />
+                  <span className="hidden lg:inline">PR Diff</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('instrumentation')}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200
+                    ${activeTab === 'instrumentation'
+                      ? 'bg-purple-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    }
+                  `}
+                  title="Smart Instrumentation"
+                >
+                  <Activity className="w-4 h-4" />
+                  <span className="hidden lg:inline">SDK</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('router')}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200
+                    ${activeTab === 'router'
+                      ? 'bg-cyan-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    }
+                  `}
+                  title="Multi-Provider Router"
+                >
+                  <Route className="w-4 h-4" />
+                  <span className="hidden lg:inline">Router</span>
+                </button>
+
+                <button
                   onClick={() => setActiveTab('shadow')}
                   className={`
                     flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200
@@ -170,6 +218,9 @@ const App: React.FC = () => {
           {activeTab === 'calculator' && <ManualCalculator models={models} />}
           {activeTab === 'live' && <LiveEstimator models={models} />}
           {activeTab === 'arena' && <Arena models={models} />}
+          {activeTab === 'pr-diff' && <PRCostDiff />}
+          {activeTab === 'instrumentation' && <SmartInstrumentation />}
+          {activeTab === 'router' && <MultiProviderRouter />}
           {activeTab === 'shadow' && <CostShadow />}
           {activeTab === 'consultant' && <AIConsultant />}
           {activeTab === 'budget' && <BudgetManager />}

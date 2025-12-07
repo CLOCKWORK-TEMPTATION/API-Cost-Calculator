@@ -119,3 +119,181 @@ export interface APICallRecord {
   timestamp: string;
   featureTags?: string[];
 }
+
+// Git-aware Cost Diff interfaces
+export interface PullRequestCostAnalysis {
+  id: string;
+  title: string;
+  baseBranch: string;
+  headBranch: string;
+  filesChanged: FileCostChange[];
+  totalCostImpact: CostImpact;
+  riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  recommendations: CostRecommendation[];
+  timestamp: string;
+}
+
+export interface FileCostChange {
+  filePath: string;
+  changeType: 'added' | 'modified' | 'deleted';
+  addedLines: number;
+  deletedLines: number;
+  apiCallChanges: APICallChange[];
+  costImpact: number;
+  riskFactors: string[];
+}
+
+export interface APICallChange {
+  line: number;
+  type: 'added' | 'modified' | 'removed';
+  oldCall?: string;
+  newCall?: string;
+  modelChange?: string;
+  tokenEstimate: {
+    input: number;
+    output: number;
+  };
+  costDelta: number;
+}
+
+export interface CostImpact {
+  estimatedDailyCost: number;
+  estimatedMonthlyCost: number;
+  costChangePercentage: number;
+  confidenceLevel: number;
+}
+
+// Smart Instrumentation SDK interfaces
+export interface InstrumentationMetrics {
+  endpointId: string;
+  callCount: number;
+  avgLatency: number;
+  p95Latency: number;
+  p99Latency: number;
+  errorRate: number;
+  retryRate: number;
+  avgTokens: {
+    input: number;
+    output: number;
+  };
+  totalCost: number;
+  dataTransfer: number;
+  timestamp: string;
+}
+
+export interface OptimizationSuggestion {
+  id: string;
+  type: 'batching' | 'caching' | 'model-switch' | 'prompt-optimization' | 'request-reduction';
+  endpointId: string;
+  currentPattern: string;
+  suggestedPattern: string;
+  estimatedSavings: number;
+  implementationCode: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  impact: 'low' | 'medium' | 'high';
+  autoFixable: boolean;
+}
+
+export interface AutoOptimizationResult {
+  applied: boolean;
+  changes: OptimizationChange[];
+  estimatedSavings: number;
+  performance: {
+    before: InstrumentationMetrics;
+    after: InstrumentationMetrics;
+  };
+}
+
+export interface OptimizationChange {
+  filePath: string;
+  line: number;
+  type: string;
+  description: string;
+  codeBefore: string;
+  codeAfter: string;
+}
+
+// Multi-Provider Router interfaces
+export interface ProviderConfig {
+  id: string;
+  name: string;
+  type: 'openai' | 'anthropic' | 'google' | 'azure' | 'local';
+  models: ProviderModel[];
+  pricing: ProviderPricing;
+  rateLimits: RateLimit;
+  healthCheck: HealthCheck;
+  priority: number;
+  enabled: boolean;
+}
+
+export interface ProviderModel {
+  id: string;
+  name: string;
+  contextWindow: number;
+  capabilities: string[];
+  pricing: {
+    inputPricePerMillion: number;
+    outputPricePerMillion: number;
+    cachedPricePerMillion?: number;
+  };
+  performance: {
+    avgLatency: number;
+    reliability: number;
+  };
+}
+
+export interface ProviderPricing {
+  currency: string;
+  tier: string;
+  volumeDiscounts: VolumeDiscount[];
+  billingGranularity: 'token' | 'request' | 'minute';
+}
+
+export interface VolumeDiscount {
+  minTokens: number;
+  discountPercentage: number;
+}
+
+export interface RateLimit {
+  requestsPerMinute: number;
+  tokensPerMinute: number;
+  concurrentConnections: number;
+}
+
+export interface HealthCheck {
+  endpoint: string;
+  interval: number;
+  timeout: number;
+  retries: number;
+}
+
+export interface RoutingDecision {
+  providerId: string;
+  modelId: string;
+  reasoning: string;
+  estimatedCost: number;
+  estimatedLatency: number;
+  confidence: number;
+  fallbackOptions: string[];
+}
+
+export interface RoutingPolicy {
+  id: string;
+  name: string;
+  rules: RoutingRule[];
+  priority: number;
+  enabled: boolean;
+}
+
+export interface RoutingRule {
+  condition: string;
+  action: 'route' | 'reject' | 'queue' | 'fallback';
+  target: string;
+  weight?: number;
+  conditions: {
+    costLimit?: number;
+    latencyLimit?: number;
+    reliabilityThreshold?: number;
+    timeWindow?: string;
+  };
+}
