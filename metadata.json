@@ -1,0 +1,7 @@
+{
+  "name": "حاسبة تكلفة Gemini API",
+  "description": "تطبيق لحساب وتقدير تكاليف استخدام Gemini API مع تجربة حية لقياس استهلاك التوكن.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
